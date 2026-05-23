@@ -14,6 +14,7 @@ export default function TestFirebase() {
     <main style={{ padding: '2rem' }}>
       <h1>Firebase Setup Berhasil! ✅</h1>
       <p>Cek Console Log (F12) untuk melihat detail koneksi.</p>
+      <p>Cek Console Log (F12) untuk melihat detail koneksi.</p>
     </main>
   );
 }
