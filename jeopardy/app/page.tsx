@@ -1,20 +1,39 @@
-'use client'; // WAJIB karena kita pakai SDK Firebase di sisi browser
+"use client";
 
-import { db } from '@/lib/firebase'; 
-import { useEffect } from 'react';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import LoginForm from "@/components/auth/LoginForm";
+import RegisterForm from "@/components/auth/RegisterForm";
+import useAuth from "@/hooks/useAuth";
 
-export default function TestFirebase() {
+export default function HomePage() {
+  const { user } = useAuth();
+  const router = useRouter();
+  const [showRegister, setShowRegister] = useState<boolean>(false);
+
   useEffect(() => {
-    // Cek di Console Log Browser (F12)
-    console.log("Firebase App Name:", db.app.name);
-    console.log("Project ID:", db.app.options.projectId);
-  }, []);
+    if (user) {
+      router.replace("/dashboard");
+    }
+  }, [user, router]);
 
   return (
-    <main style={{ padding: '2rem' }}>
-      <h1>Firebase Setup Berhasil! ✅</h1>
-      <p>Cek Console Log (F12) untuk melihat detail koneksi.</p>
-      <p>Cek Console Log (F12) untuk melihat detail koneksi.</p>
+    <main className="page">
+      <div className="page-inner grid-two">
+        <section className="hero">
+          <p className="pill pill-ready">Live Jeopardy</p>
+          <h1>Build trivia boards. Run the show. Buzz in live.</h1>
+          <p>
+            Host real-time Jeopardy nights with custom categories, instant
+            buzzing, and score control in one place.
+          </p>
+        </section>
+        {showRegister ? (
+          <RegisterForm onSwitch={() => setShowRegister(false)} />
+        ) : (
+          <LoginForm onSwitch={() => setShowRegister(true)} />
+        )}
+      </div>
     </main>
   );
 }
