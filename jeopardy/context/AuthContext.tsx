@@ -5,6 +5,7 @@ import type { User } from "firebase/auth";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  signInAnonymously,
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
@@ -15,6 +16,7 @@ export type AuthContextValue = {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
+  loginAsGuest: () => Promise<void>;
   register: (email: string, password: string, displayName?: string) => Promise<void>;
   logout: () => Promise<void>;
 };
@@ -39,6 +41,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       loading,
       login: async (email: string, password: string) => {
         await signInWithEmailAndPassword(auth, email, password);
+      },
+      loginAsGuest: async () => {
+        await signInAnonymously(auth);
       },
       register: async (email: string, password: string, displayName?: string) => {
         const cred = await createUserWithEmailAndPassword(auth, email, password);

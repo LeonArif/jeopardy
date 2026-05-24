@@ -15,11 +15,12 @@ import { deleteTemplate } from "@/lib/firestore/templates";
 const DashboardPage = () => {
   const router = useRouter();
   const { user, logout } = useAuth();
-  const { templates, loading } = useTemplates(user?.uid);
   const [code, setCode] = useState<string>("");
   const [displayName, setDisplayName] = useState<string>("");
   const [joinError, setJoinError] = useState<string | null>(null);
   const [joining, setJoining] = useState<boolean>(false);
+  const canManageTemplates = Boolean(user && !user.isAnonymous);
+  const { templates, loading } = useTemplates(canManageTemplates ? user?.uid : undefined);
 
   const sortedTemplates = useMemo(() => {
     return [...templates].sort((a, b) => a.title.localeCompare(b.title));
@@ -68,7 +69,11 @@ const DashboardPage = () => {
             <div className="card-header">
               <div>
                 <h2>Welcome, {user?.displayName || "Host"}</h2>
-                <p className="muted">Manage your boards or join a live session.</p>
+                <p className="muted">
+                  {canManageTemplates
+                    ? "Manage your boards or join a live session."
+                    : "Guest mode: join a live session using a code."}
+                </p>
               </div>
               <Button variant="ghost" onClick={logout}>
                 Sign out
@@ -77,27 +82,36 @@ const DashboardPage = () => {
           </header>
 
           <section className="grid-two">
-            <div className="card">
-              <h3>Your templates</h3>
-              {loading ? (
-                <p className="muted">Loading templates...</p>
-              ) : sortedTemplates.length === 0 ? (
-                <EmptyState onCreate={() => router.push("/editor/new")} />
-              ) : (
-                <div className="stack">
-                  {sortedTemplates.map((template) => (
-                    <TemplateCard
-                      key={template.id}
-                      template={template}
-                      onEdit={() => router.push(`/editor/${template.id}`)}
-                      onPlay={() => handlePlay(template.id, template.rows, template.cols)}
-                      onDelete={() => deleteTemplate(template.id)}
-                    />
-                  ))}
-                </div>
-              )}
-              <Button onClick={() => router.push("/editor/new")}>Create new template</Button>
-            </div>
+            {canManageTemplates ? (
+              <div className="card">
+                <h3>Your templates</h3>
+                {loading ? (
+                  <p className="muted">Loading templates...</p>
+                ) : sortedTemplates.length === 0 ? (
+                  <EmptyState onCreate={() => router.push("/editor/new")} />
+                ) : (
+                  <div className="stack">
+                    {sortedTemplates.map((template) => (
+                      <TemplateCard
+                        key={template.id}
+                        template={template}
+                        onEdit={() => router.push(`/editor/${template.id}`)}
+                        onPlay={() => handlePlay(template.id, template.rows, template.cols)}
+                        onDelete={() => deleteTemplate(template.id)}
+                      />
+                    ))}
+                  </div>
+                )}
+                <Button onClick={() => router.push("/editor/new")}>Create new template</Button>
+              </div>
+            ) : (
+              <div className="card">
+                <h3>Guest access</h3>
+                <p className="muted">
+                  You can join a live session, but you cannot create or host boards as a guest.
+                </p>
+              </div>
+            )}
 
             <div className="card">
               <h3>Join a session</h3>

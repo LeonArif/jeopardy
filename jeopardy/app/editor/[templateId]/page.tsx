@@ -7,6 +7,7 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import BoardGrid from "@/components/editor/BoardGrid";
 import CellEditModal from "@/components/editor/CellEditModal";
+import useAuth from "@/hooks/useAuth";
 import useTemplate from "@/hooks/useTemplate";
 import type { Cell, GameTemplate } from "@/lib/types";
 import { createEmptyCell, getCellKey, isBoardComplete, isCellFilled } from "@/lib/utils/cellHelpers";
@@ -16,10 +17,28 @@ const EditorPage = () => {
   const router = useRouter();
   const params = useParams<{ templateId: string }>();
   const templateId = params?.templateId;
-  const { template, loading } = useTemplate(templateId);
+  const { user } = useAuth();
+  const { template, loading } = useTemplate(user?.isAnonymous ? undefined : templateId);
   const [draft, setDraft] = useState<GameTemplate | null>(null);
   const [saving, setSaving] = useState<boolean>(false);
   const [selected, setSelected] = useState<{ row: number; col: number } | null>(null);
+
+  useEffect(() => {
+    if (user?.isAnonymous) {
+      router.replace("/dashboard");
+    }
+  }, [router, user]);
+
+  if (user?.isAnonymous) {
+    return (
+      <ProtectedRoute>
+        <main className="page">
+          <p className="muted">Guest accounts can only join live sessions.</p>
+        </main>
+      </ProtectedRoute>
+    );
+  }
+
   const resizeBoard = (nextRows: number, nextCols: number) => {
     if (!draft) {
       return;

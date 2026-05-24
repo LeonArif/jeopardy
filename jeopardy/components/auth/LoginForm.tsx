@@ -11,7 +11,7 @@ type LoginFormProps = {
 };
 
 const LoginForm = ({ onSwitch }: LoginFormProps) => {
-  const { login } = useAuth();
+  const { login, loginAsGuest } = useAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
@@ -45,6 +45,18 @@ const LoginForm = ({ onSwitch }: LoginFormProps) => {
     }
   };
 
+  const handleGuestLogin = async () => {
+    setError(null);
+    setLoading(true);
+    try {
+      await loginAsGuest();
+    } catch (err) {
+      setError(getErrorMessage(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <form className="card" onSubmit={handleSubmit}>
       <h2>Welcome back</h2>
@@ -68,6 +80,9 @@ const LoginForm = ({ onSwitch }: LoginFormProps) => {
       {error ? <p className="error-text">{error}</p> : null}
       <Button type="submit" disabled={loading}>
         {loading ? "Signing in..." : "Sign in"}
+      </Button>
+      <Button type="button" variant="ghost" onClick={handleGuestLogin} disabled={loading}>
+        {loading ? "Please wait..." : "Continue as guest"}
       </Button>
       <button type="button" className="link" onClick={onSwitch}>
         Need an account? Create one

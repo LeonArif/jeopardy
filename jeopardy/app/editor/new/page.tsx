@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ProtectedRoute from "@/components/ui/ProtectedRoute";
 import Button from "@/components/ui/Button";
@@ -16,9 +17,25 @@ const NewEditorPage = () => {
   const [cols, setCols] = useState<number>(5);
   const [loading, setLoading] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (user?.isAnonymous) {
+      router.replace("/dashboard");
+    }
+  }, [router, user]);
+
+  if (user?.isAnonymous) {
+    return (
+      <ProtectedRoute>
+        <main className="page">
+          <p className="muted">Guest accounts can only join live sessions.</p>
+        </main>
+      </ProtectedRoute>
+    );
+  }
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!user) {
+    if (!user || user.isAnonymous) {
       return;
     }
     setLoading(true);
