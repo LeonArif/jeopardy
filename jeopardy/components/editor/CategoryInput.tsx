@@ -10,7 +10,7 @@ type CategoryInputProps = {
 const CategoryInput = ({ value, onChange }: CategoryInputProps) => {
   return (
     <input
-      className="input input-compact"
+      className="input input-compact input-centered"
       placeholder="Category"
       value={value}
       onChange={(event: ChangeEvent<HTMLInputElement>) => onChange(event.target.value)}

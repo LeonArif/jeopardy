@@ -21,7 +21,7 @@ export default function HomePage() {
     <main className="page">
       <div className="page-inner grid-two">
         <section className="hero">
-          <p className="pill pill-ready">Live Jeopardy</p>
+          {/* <p className="hero-kicker">Live Jeopardy</p> */}
           <h1>Build trivia boards. Run the show. Buzz in live.</h1>
           <p>
             Host real-time Jeopardy nights with custom categories, instant

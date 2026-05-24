@@ -90,7 +90,7 @@ const DashboardPage = () => {
                 ) : sortedTemplates.length === 0 ? (
                   <EmptyState onCreate={() => router.push("/editor/new")} />
                 ) : (
-                  <div className="stack">
+                  <div className="stack template-list">
                     {sortedTemplates.map((template) => (
                       <TemplateCard
                         key={template.id}

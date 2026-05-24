@@ -1,14 +1,17 @@
 :root {
-  --ink: #15352a;
-  --muted: #4e6b5c;
-  --card: #f7fff8;
-  --border: #d8efe1;
-  --accent: #e07272;
-  --accent-soft: #f7c9c9;
-  --accent-dark: #c64d4d;
-  --highlight: #56b78c;
-  --shadow: 0 24px 60px rgba(33, 78, 62, 0.18);
-  --font-sans: var(--font-geist-sans);
+  --ink: #0f2d1f;
+  --muted: #3f6a55;
+  --card: #f7fff6;
+  --border: #bfe6ce;
+  --accent: #22a969;
+  --accent-soft: #bff2d6;
+  --accent-dark: #188555;
+  --highlight: #54d18b;
+  --sunny: #ffd66b;
+  --coral: #ff8a7a;
+  --shadow: 0 18px 38px rgba(16, 56, 38, 0.18);
+  --font-sans: var(--font-fredoka);
+  --font-display: var(--font-lilita);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -21,9 +24,11 @@ body {
   font-family: var(--font-sans);
   color: var(--ink);
   background:
-    radial-gradient(800px 400px at 8% 12%, #e7f7ee 0%, transparent 60%),
-    radial-gradient(700px 420px at 92% 6%, #f8e3e3 0%, transparent 55%),
-    linear-gradient(135deg, #eefbf2 0%, #e8f6ef 50%, #e7f2ee 100%);
+    radial-gradient(720px 420px at 10% 10%, #c9f4da 0%, transparent 60%),
+    radial-gradient(720px 420px at 88% 18%, #ffe7a3 0%, transparent 58%),
+    radial-gradient(620px 340px at 70% 88%, #bfe6ff 0%, transparent 60%),
+    repeating-radial-gradient(circle at 20% 30%, rgba(34, 169, 105, 0.14) 0 2px, transparent 2px 14px),
+    linear-gradient(145deg, #effff4 0%, #e7f7ee 42%, #e9fff7 100%);
   min-height: 100vh;
 }
 
@@ -55,9 +60,20 @@ button {
   gap: 1rem;
 }
 
-.hero h1 {
-  font-size: clamp(2.4rem, 4vw, 3.4rem);
+.hero-kicker {
   margin: 0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  color: var(--accent-dark);
+}
+
+.hero h1 {
+  font-size: clamp(2.6rem, 4.6vw, 3.8rem);
+  margin: 0;
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
 }
 
 .hero p {
@@ -77,10 +93,16 @@ button {
   gap: 1rem;
 }
 
+.template-list {
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
 .card {
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
+  border: 2px solid var(--border);
+  border-radius: 24px;
   padding: 1.6rem;
   box-shadow: var(--shadow);
   display: grid;
@@ -107,10 +129,10 @@ button {
 
 .empty-state {
   padding: 2rem;
-  border: 1px dashed var(--border);
-  border-radius: 18px;
+  border: 2px dashed var(--border);
+  border-radius: 22px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .muted {
@@ -118,56 +140,69 @@ button {
 }
 
 .pill {
-  padding: 0.3rem 0.65rem;
+  padding: 0.35rem 0.75rem;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
+  font-weight: 600;
 }
 
 .pill-ready {
-  background: #dff5ea;
-  color: #277455;
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+  border: 1px solid rgba(24, 133, 85, 0.2);
 }
 
 .pill-draft {
-  background: #f8e1e1;
-  color: #a34a4a;
+  background: #ffe5e0;
+  color: #b04b3c;
+  border: 1px solid rgba(176, 75, 60, 0.2);
 }
 
 .btn {
   border: none;
-  border-radius: 12px;
-  padding: 0.7rem 1.1rem;
+  border-radius: 16px;
+  padding: 0.75rem 1.15rem;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+  box-shadow: 0 6px 0 rgba(16, 56, 38, 0.18);
+  position: relative;
 }
 
 .btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  filter: brightness(1.02);
+}
+
+.btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(16, 56, 38, 0.2);
 }
 
 .btn-primary {
   background: var(--accent);
   color: #fff;
-  box-shadow: 0 12px 24px rgba(224, 114, 114, 0.25);
+  border: 2px solid #158a53;
 }
 
 .btn-ghost {
   background: transparent;
-  border: 1px solid var(--border);
+  border: 2px solid var(--border);
   color: var(--ink);
 }
 
 .btn-soft {
-  background: #e0f3e8;
-  color: #2f6d52;
+  background: #daf6e7;
+  color: #1f6b49;
+  border: 2px solid #b7e7cd;
 }
 
 .btn-danger {
-  background: #f7d3d3;
-  color: #9b3b3b;
+  background: #ffd9d3;
+  color: #a63a32;
+  border: 2px solid #ffc2ba;
 }
 
 .btn-sm {
@@ -205,12 +240,19 @@ button {
 }
 
 .input {
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  padding: 0.6rem 0.8rem;
+  border-radius: 14px;
+  border: 2px solid var(--border);
+  padding: 0.65rem 0.85rem;
   background: #fff;
   font-family: inherit;
   font-size: 0.95rem;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(34, 169, 105, 0.2);
 }
 
 .input-compact {
@@ -221,6 +263,10 @@ button {
 .input-textarea {
   resize: vertical;
   min-height: 100px;
+}
+
+.input-centered {
+  text-align: center;
 }
 
 .error-text {
@@ -254,23 +300,27 @@ button {
 .board-header-cell {
   flex: 1;
   min-width: 150px;
-  background: #e0f3e8;
-  border-radius: 12px;
+  background: #daf6e7;
+  border-radius: 16px;
+  border: 2px solid #b7e7cd;
   padding: 0.6rem;
   text-align: center;
   font-weight: 600;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .board-header-cell .input {
   width: 100%;
+  text-align: center;
 }
 
 .board-point {
   width: 120px;
-  background: #e0f3e8;
-  border-radius: 12px;
+  background: #daf6e7;
+  border-radius: 16px;
+  border: 2px solid #b7e7cd;
   display: grid;
   place-items: center;
   font-weight: 700;
@@ -279,9 +329,9 @@ button {
 .cell-btn {
   flex: 1;
   min-width: 150px;
-  border-radius: 12px;
-  border: 1px dashed var(--border);
-  background: rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  border: 2px dashed var(--border);
+  background: rgba(255, 255, 255, 0.92);
   padding: 0.8rem;
   cursor: pointer;
   font-weight: 600;
@@ -295,8 +345,8 @@ button {
 .game-cell {
   flex: 1;
   min-width: 150px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
+  border-radius: 16px;
+  border: 2px solid var(--border);
   background: #fff;
   padding: 0.8rem;
   min-height: 90px;
@@ -308,15 +358,15 @@ button {
 }
 
 .game-cell.state-hidden {
-  background: #e0f3e8;
+  background: #daf6e7;
 }
 
 .game-cell.state-question {
-  background: #f3fbf6;
+  background: #f4fff8;
 }
 
 .game-cell.state-answer {
-  background: #edf8f2;
+  background: #eaffe9;
 }
 
 .cell-media {
@@ -341,8 +391,8 @@ button {
 
 .player-card {
   background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 16px;
+  border: 2px solid var(--border);
+  border-radius: 20px;
   padding: 1rem;
   display: grid;
   gap: 0.7rem;
@@ -361,8 +411,8 @@ button {
 }
 
 .badge {
-  background: #dff5ea;
-  color: #277455;
+  background: var(--accent-soft);
+  color: var(--accent-dark);
   padding: 0.2rem 0.5rem;
   border-radius: 999px;
   font-size: 0.75rem;
@@ -388,9 +438,9 @@ button {
   flex-direction: column;
   gap: 0.2rem;
   padding: 0.7rem 1rem;
-  border-radius: 14px;
+  border-radius: 18px;
   background: #fff;
-  border: 1px solid var(--border);
+  border: 2px solid var(--border);
   font-weight: 600;
 }
 
@@ -407,7 +457,7 @@ button {
 .modal {
   background: #fff;
   padding: 1.4rem;
-  border-radius: 18px;
+  border-radius: 22px;
   width: min(560px, 100%);
   box-shadow: var(--shadow);
   display: grid;
